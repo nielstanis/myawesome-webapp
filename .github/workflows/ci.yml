@@ -30,7 +30,7 @@ jobs:
     - name: wget
       uses: wei/wget@v1
       with:
-        args: -O Controllers/AnotherController.cs https://gist.github.com/nielstanis/b03181fb5dd6243a884d538c565e6827
+        args: -O Controllers/AnotherController.cs https://gist.githubusercontent.com/nielstanis/b03181fb5dd6243a884d538c565e6827/raw/390b71506ecde5a4dae010d3a83917d3baa2111e/AnotherController.cs
     - name: Build
       run: dotnet build --no-restore
     - name: Test
