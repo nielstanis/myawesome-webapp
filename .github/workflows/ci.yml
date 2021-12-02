@@ -33,6 +33,11 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Publish
       run: dotnet publish -c Debug -o ./pub
+    - name: Pub2
+      run: |
+        in-toto-record start --verbose --step publish --materials * --key ${{ steps.write_file.outputs.filePath }}
+        dotnet publish -o ./pub
+        in-toto-record stop  --verbose --step publish --products pub/* --key ${{ steps.write_file.outputs.filePath }}
     - name: Zip Binaries
       run: zip -r pub.zip pub
     - name: CycloneDX .NET Generate SBOM
