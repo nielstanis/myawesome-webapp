@@ -63,8 +63,8 @@ jobs:
       run: java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{secrets.VC_API_ID}}" --veracode_api_key "${{secrets.VC_API_KEY}}" --file "pub.zip" -jf pipeline.json
     - name : Execute
       run: |
-        in-toto-run -n sbom -m bom.json -x -k ${{ steps.write_file.outputs.filePath }}
-        in-toto-run -n sast -m pipeline.json -x -k ${{ steps.write_file.outputs.filePath }}
+        in-toto-run -n sbom -p bom.json -x -k ${{ steps.write_file.outputs.filePath }}
+        in-toto-run -n sast -p pipeline.json -x -k ${{ steps.write_file.outputs.filePath }}
     - uses: actions/upload-artifact@v2
       with:
         name: my-sbom
