@@ -11,6 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Pip Installer
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: in-toto
+    - name: Run Workflow
+      id: write_file
+      uses: timheuer/base64-to-file@v1
+      with:
+        fileName: 'key'
+        encodedString: ${{ secrets.RSA_KEY }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -30,7 +40,7 @@ jobs:
       # uses: CycloneDX/gh-dotnet-generate-sbom@c183e4ac30e5b99354cb9a98c38548e07c538346
       uses: CycloneDX/gh-dotnet-generate-sbom@v1.0.1
       with:
-        path: ./MyWebApp.csproj
+        path: ./WebApp.csproj
         json: true
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
@@ -44,16 +54,6 @@ jobs:
       run: unzip pipeline-scan-LATEST.zip
     - name: Run Pipeline Scanner
       run: java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{secrets.VC_API_ID}}" --veracode_api_key "${{secrets.VC_API_KEY}}" --file "pub.zip" -jf pipeline.json
-    - name: Pip Installer
-      uses: BSFishy/pip-action@v1
-      with:
-        packages: in-toto
-    - name: Run Workflow
-      id: write_file
-      uses: timheuer/base64-to-file@v1
-      with:
-        fileName: 'key'
-        encodedString: ${{ secrets.RSA_KEY }}
     - name : Execute
       run: |
         in-toto-run -n sbom -m bom.json -x -k ${{ steps.write_file.outputs.filePath }}
