@@ -1,8 +1,9 @@
 name: container
-on:
 
+on:
   push:
-    branches: [ container ]
+    tags:
+      - *.*
     
 jobs:
   build:
