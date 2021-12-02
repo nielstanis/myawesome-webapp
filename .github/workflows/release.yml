@@ -1,9 +1,9 @@
-name: release-container
+name: containere
 
 on:
+
   push:
-    tags:
-    - '*'
+    branches: [ main ]
 
 jobs:
   build:
