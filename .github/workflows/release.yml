@@ -43,3 +43,7 @@ jobs:
         run: cosign verify ghcr.io/nielstanis/webapp:latest
         env:
           COSIGN_EXPERIMENTAL: 1
+          
+      - uses: anchore/sbom-action@v0
+        with:
+          image: ghcr.io/nielstanis/webapp:latest
